@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
-
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 loader = DirectoryLoader(
     path= "./papers",
     glob="**/*.pdf",
@@ -11,5 +11,26 @@ loader = DirectoryLoader(
 
 docs = loader.load()
 
-print (docs)
-print(len(docs))
+MARKDOWN_SEPARATORS = [
+    "\n#{1,6} ",
+    "```\n",
+    "\n\\*\\*\\*+\n",
+    "\n---+\n",
+    "\n___+\n",
+    "\n\n",
+    "\n",
+    " ",
+    "",
+]
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1200,
+    chunk_overlap=200,
+    add_start_index=True,
+    strip_whitespace=True,
+    separators=MARKDOWN_SEPARATORS,
+)
+
+splits = text_splitter.split_documents(docs)
+
+print(splits)
