@@ -1,6 +1,6 @@
 # BJJ RAG
 
-Ứng dụng Retrieval-Augmented Generation (RAG) dòng lệnh dùng các bài nghiên cứu PDF về Brazilian Jiu-Jitsu làm nguồn dữ liệu. Ứng dụng tải PDF, chia nhỏ văn bản, tạo OpenAI embeddings, lưu vector bằng FAISS, truy xuất các đoạn liên quan và tạo câu trả lời có trích dẫn nguồn/trang.
+Ứng dụng Retrieval-Augmented Generation (RAG) có giao diện web và dòng lệnh, dùng các bài nghiên cứu PDF về Brazilian Jiu-Jitsu làm nguồn dữ liệu. Ứng dụng tải PDF, chia nhỏ văn bản, tạo OpenAI embeddings, lưu vector bằng FAISS, truy xuất các đoạn liên quan và tạo câu trả lời có trích dẫn nguồn/trang.
 
 ## Pipeline
 
@@ -19,6 +19,8 @@ PDF → PyPDFLoader → RecursiveCharacterTextSplitter
 - Truy xuất tối đa 5 chunk bằng cosine similarity và ngưỡng 0,2.
 - Chỉ trả lời từ context được truy xuất; nói không biết khi thiếu dữ liệu.
 - Yêu cầu trích dẫn theo định dạng `[Source: filename, page N]`.
+- Giao diện chat trên web, hỗ trợ lịch sử hiển thị và xóa cuộc trò chuyện.
+- Cache RAG pipeline trong tiến trình web để không embedding lại sau mỗi câu hỏi.
 - Có script so sánh kích thước vector của hai embedding model.
 
 ## Cài đặt
@@ -57,7 +59,7 @@ OPENAI_CHAT_MODEL=gpt-4o-mini
 
 Không commit hoặc chia sẻ `.env`. File này đã được khai báo trong `.gitignore`.
 
-`gpt-4o-mini` hiện được OpenAI đánh dấu deprecated nhưng được giữ làm mặc định để tương thích với bài thực hành và `temperature=0`. Có thể thay `OPENAI_CHAT_MODEL` trong `.env` khi muốn dùng model khác tương thích với `ChatOpenAI`.
+`gpt-4o-mini` được giữ làm mặc định để tương thích với bài thực hành và `temperature=0`. Có thể thay `OPENAI_CHAT_MODEL` trong `.env` khi muốn dùng model khác tương thích với `ChatOpenAI`.
 
 ## So sánh embedding model
 
@@ -74,7 +76,17 @@ text-embedding-3-large: 3072 dimensions
 
 Script này gọi API một lần cho mỗi model nên có phát sinh API usage.
 
-## Chạy RAG
+## Chạy giao diện web
+
+```bash
+streamlit run app.py
+```
+
+Mở địa chỉ Streamlit in ra trong terminal, mặc định là <http://localhost:8501>. Lần đầu khởi động, ứng dụng đọc các PDF và tạo embeddings; các câu hỏi tiếp theo trong cùng tiến trình sẽ dùng lại pipeline đã cache.
+
+API key chỉ được đọc từ `.env` ở phía server, không được gửi xuống mã nguồn chạy trong trình duyệt.
+
+## Chạy bản dòng lệnh
 
 ```bash
 python chatbot.py
@@ -86,15 +98,18 @@ Ví dụ:
 Question: What are the most common injuries in Brazilian Jiu-Jitsu?
 ```
 
-Ứng dụng tạo lại FAISS index từ các PDF mỗi lần khởi động, sau đó in câu trả lời và citation. Cả `.env` và `faiss_index/` đều không được đưa lên Git.
+Ứng dụng tạo lại FAISS index từ các PDF mỗi lần khởi động tiến trình, sau đó in câu trả lời và citation. Cả `.env` và `faiss_index/` đều không được đưa lên Git.
 
 ## Cấu trúc project
 
 ```text
 .
 ├── chatbot.py          # RAG pipeline và CLI
+├── app.py              # Giao diện chat Streamlit
+├── rag.py              # RAG pipeline dùng chung cho CLI và web
 ├── embedding_demo.py   # So sánh embedding dimensions
 ├── papers/             # PDF nguồn
+├── .streamlit/         # Theme và cấu hình Streamlit
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Mẫu biến môi trường
 └── README.md
@@ -119,7 +134,7 @@ Chỉ các chunk đạt ngưỡng mới được đưa vào prompt, tối đa 5 
 
 ## Giới hạn hiện tại
 
-- Đây là CLI một câu hỏi mỗi lần chạy, chưa có giao diện web hoặc lịch sử hội thoại.
+- Lịch sử trên web chỉ dùng để hiển thị; mỗi câu hỏi được truy xuất độc lập, chưa hỗ trợ câu hỏi nối tiếp theo ngữ cảnh hội thoại.
 - FAISS index được xây lại mỗi lần chạy thay vì tái sử dụng index cũ.
 - Chất lượng câu trả lời phụ thuộc vào nội dung PDF, cách chunking và ngưỡng retrieval.
 - `langchain-community` hiện phát cảnh báo deprecation nhưng vẫn hoạt động với phiên bản đã khóa trong `requirements.txt`.
