@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T15:29:37Z",
+  "title": "Design System: BJJ Research Assistant",
+  "extensions": {
+    "colorMeta": {
+      "ink-deep": {"role": "neutral", "displayName": "Deep Workbench Ink", "canonical": "#06171d", "tonalRamp": ["oklch(15% 0.02 220)", "oklch(26% 0.02 220)", "oklch(37% 0.02 220)", "oklch(48% 0.02 220)", "oklch(59% 0.02 220)", "oklch(70% 0.02 220)", "oklch(81% 0.02 220)", "oklch(92% 0.02 220)"]},
+      "ink-panel": {"role": "neutral", "displayName": "Archive Panel Ink", "canonical": "#09232b", "tonalRamp": ["oklch(15% 0.03 220)", "oklch(26% 0.03 220)", "oklch(37% 0.03 220)", "oklch(48% 0.03 220)", "oklch(59% 0.03 220)", "oklch(70% 0.03 220)", "oklch(81% 0.03 220)", "oklch(92% 0.03 220)"]},
+      "ink-raised": {"role": "neutral", "displayName": "Raised Ink", "canonical": "#10343d", "tonalRamp": ["oklch(15% 0.04 220)", "oklch(26% 0.04 220)", "oklch(37% 0.04 220)", "oklch(48% 0.04 220)", "oklch(59% 0.04 220)", "oklch(70% 0.04 220)", "oklch(81% 0.04 220)", "oklch(92% 0.04 220)"]},
+      "film": {"role": "neutral", "displayName": "Readable Film", "canonical": "#e8f2ef", "tonalRamp": ["oklch(15% 0.013 170)", "oklch(26% 0.013 170)", "oklch(37% 0.013 170)", "oklch(48% 0.013 170)", "oklch(59% 0.013 170)", "oklch(70% 0.013 170)", "oklch(81% 0.013 170)", "oklch(92% 0.013 170)"]},
+      "film-bright": {"role": "neutral", "displayName": "Bright Film", "canonical": "#f4faf7", "tonalRamp": ["oklch(15% 0.01 160)", "oklch(26% 0.01 160)", "oklch(37% 0.01 160)", "oklch(48% 0.01 160)", "oklch(59% 0.01 160)", "oklch(70% 0.01 160)", "oklch(81% 0.01 160)", "oklch(92% 0.01 160)"]},
+      "film-muted": {"role": "neutral", "displayName": "Muted Film", "canonical": "#b9ccc8", "tonalRamp": ["oklch(15% 0.025 170)", "oklch(26% 0.025 170)", "oklch(37% 0.025 170)", "oklch(48% 0.025 170)", "oklch(59% 0.025 170)", "oklch(70% 0.025 170)", "oklch(81% 0.025 170)", "oklch(92% 0.025 170)"]},
+      "registration-mint": {"role": "primary", "displayName": "Registration Mint", "canonical": "#42e8c8", "tonalRamp": ["oklch(15% 0.15 173)", "oklch(26% 0.15 173)", "oklch(37% 0.15 173)", "oklch(48% 0.15 173)", "oklch(59% 0.15 173)", "oklch(70% 0.15 173)", "oklch(81% 0.15 173)", "oklch(92% 0.15 173)"]},
+      "signal-orange": {"role": "secondary", "displayName": "Signal Orange", "canonical": "#ff6b35", "tonalRamp": ["oklch(15% 0.2 35)", "oklch(26% 0.2 35)", "oklch(37% 0.2 35)", "oklch(48% 0.2 35)", "oklch(59% 0.2 35)", "oklch(70% 0.2 35)", "oklch(81% 0.2 35)", "oklch(92% 0.2 35)"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Barlow Condensed", "purpose": "Product title and compact status labels."},
+      "body": {"displayName": "Atkinson Hyperlegible", "purpose": "Questions, answers and source citations."}
+    },
+    "shadows": [
+      {"name": "query-lift", "value": "0 22px 54px rgba(0, 8, 10, 0.32)", "purpose": "Separates the fixed question field from the page ground."}
+    ],
+    "motion": [
+      {"name": "entry-scan", "value": "8s cubic-bezier(.16, 1, .3, 1), once", "purpose": "One scan pass across the work surface on entry; disabled for reduced motion."},
+      {"name": "control-state", "value": "180ms ease-out", "purpose": "Button hover and focus state changes."}
+    ],
+    "breakpoints": [
+      {"name": "mobile-layout", "value": "800px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Question Field",
+      "kind": "input",
+      "refersTo": "input-query",
+      "description": "Persistent question composer for the research corpus.",
+      "html": "<label class=\"ds-query-label\">Ask the corpus<input class=\"ds-query-input\" placeholder=\"Enter a research question…\"></label>",
+      "css": ".ds-query-label { display: grid; gap: 8px; color: #b9ccc8; font: 400 14px/1.4 'Atkinson Hyperlegible', sans-serif; } .ds-query-input { min-height: 3.4rem; padding: 12px 16px; border: 1px solid #42e8c8; border-radius: 0; background: #09232b; color: #f4faf7; font: inherit; } .ds-query-input::placeholder { color: #9db6b1; opacity: 1; } .ds-query-input:focus-visible { outline: 3px solid #ff6b35; outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Destructive or secondary action in the corpus rail.",
+      "html": "<button class=\"ds-button-ghost\">Clear conversation</button>",
+      "css": ".ds-button-ghost { min-height: 2.7rem; padding: 10px 16px; border: 1px solid rgba(66, 232, 200, .28); border-radius: 0; background: transparent; color: #e8f2ef; font: 400 14px/1.4 'Atkinson Hyperlegible', sans-serif; transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out; } .ds-button-ghost:hover { border-color: #42e8c8; background: #42e8c8; color: #06171d; } .ds-button-ghost:focus-visible { outline: 3px solid #ff6b35; outline-offset: 3px; }"
+    },
+    {
+      "name": "Conversation Plate",
+      "kind": "custom",
+      "refersTo": "surface-chat",
+      "description": "A source answer or question held on the evidence reading surface.",
+      "html": "<article class=\"ds-chat-plate\"><strong>Source-locked output</strong><p>Answer content with [Source: filename, page N] citations.</p></article>",
+      "css": ".ds-chat-plate { position: relative; max-width: 72ch; padding: 1.25rem 1.35rem; border: 0; border-radius: 0; background: rgba(232, 242, 239, .055); box-shadow: inset 0 1px 0 rgba(232, 242, 239, .13); color: #e8f2ef; font: 400 16px/1.65 'Atkinson Hyperlegible', sans-serif; } .ds-chat-plate::after { content: ''; position: absolute; top: 10px; right: 10px; width: 7px; height: 7px; border-top: 1px solid #42e8c8; border-right: 1px solid #42e8c8; } .ds-chat-plate strong { color: #f4faf7; } .ds-chat-plate p { margin: 8px 0 0; }"
+    },
+    {
+      "name": "Corpus Readout",
+      "kind": "custom",
+      "description": "Three live corpus counts presented on a single ruled rail.",
+      "html": "<div class=\"ds-readout\"><div><strong>2</strong><span>PDF</span></div><div><strong>8</strong><span>Pages</span></div><div><strong>34</strong><span>Chunks</span></div></div>",
+      "css": ".ds-readout { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(66, 232, 200, .28); border-bottom: 1px solid rgba(66, 232, 200, .28); color: #b9ccc8; font: 400 11px/1.3 'Atkinson Hyperlegible', sans-serif; text-transform: uppercase; } .ds-readout > div { padding: 12px 6px 10px 0; } .ds-readout > div + div { padding-left: 10px; border-left: 1px solid rgba(232, 242, 239, .13); } .ds-readout strong { display: block; color: #f4faf7; font: 600 28px/1 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Evidence Film Desk",
+    "overview": "The interface treats research as material to inspect. A deep ink workbench holds one illuminated conversation plate, while small registration lines and restrained signal colors make system state visible. The visual character comes from the contrast between the dark archive rail and the pale, readable evidence surface; it does not imitate a physical film texture.\n\nThe system is dense where corpus status and controls need to be scanned, then gives answers a broad reading measure. Motion is reserved for one scan pass on entry and short control-state transitions. The mobile view collapses the corpus rail so the welcome, conversation and question field remain usable without a sideways layout.",
+    "keyCharacteristics": [
+      "Deep ink surfaces with a mint registration accent.",
+      "Square, ruled controls and conversation plates.",
+      "Condensed display type paired with a highly legible body face.",
+      "Citation text remains the visual focus of each answer."
+    ],
+    "rules": [
+      {"name": "The Signal-Role Rule", "body": "Mint marks active structure; orange marks attention. Do not swap their roles casually.", "section": "colors"},
+      {"name": "The Two-Face Rule", "body": "Keep Barlow Condensed for display and compact labels; use Atkinson Hyperlegible for sentences and citations.", "section": "typography"}
+    ],
+    "dos": [
+      "Do keep source citations visible and readable inside answers.",
+      "Do reserve mint for active structure and orange for attention or focus.",
+      "Do respect prefers-reduced-motion and keep content visible when motion is disabled.",
+      "Do keep the mobile sidebar collapsed initially."
+    ],
+    "donts": [
+      "Don't use gradients on display text.",
+      "Don't add decorative textures that reduce citation contrast.",
+      "Don't use rounded chat bubbles or nested card shells.",
+      "Don't let color be the only signal for focus, loading or error."
+    ]
+  }
+}

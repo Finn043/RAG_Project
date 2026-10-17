@@ -5,3 +5,8 @@ __pycache__/
 .DS_Store
 .env
 faiss_index/
+.impeccable/questions/
+.impeccable/references/
+.impeccable/review/
+.impeccable/direction-options.json
+.impeccable/app-surface-brief.md
