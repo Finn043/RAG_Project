@@ -1,4 +1,5 @@
 import logging
+import os
 
 import streamlit as st
 
@@ -311,6 +312,13 @@ st.markdown(
 
 @st.cache_resource(show_spinner=False)
 def load_rag_system():
+    if not os.getenv("OPENAI_API_KEY"):
+        try:
+            os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+            if st.secrets.get("OPENAI_CHAT_MODEL"):
+                os.environ["OPENAI_CHAT_MODEL"] = st.secrets["OPENAI_CHAT_MODEL"]
+        except (KeyError, FileNotFoundError):
+            pass
     return build_rag_system()
 
 

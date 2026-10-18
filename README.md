@@ -84,7 +84,24 @@ streamlit run app.py
 
 Mở địa chỉ Streamlit in ra trong terminal, mặc định là <http://localhost:8501>. Lần đầu khởi động, ứng dụng đọc các PDF và tạo embeddings; các câu hỏi tiếp theo trong cùng tiến trình sẽ dùng lại pipeline đã cache.
 
-API key chỉ được đọc từ `.env` ở phía server, không được gửi xuống mã nguồn chạy trong trình duyệt.
+API key chỉ được đọc từ `.env` (local) hoặc Streamlit Secrets (cloud) ở phía server, không được gửi xuống mã nguồn chạy trong trình duyệt.
+
+## Deploy lên Streamlit Community Cloud
+
+1. Đăng nhập tại <https://share.streamlit.io> bằng GitHub và cấp quyền truy cập repo private `Finn043/RAG_Project`.
+2. Chọn **Create app**, repository `Finn043/RAG_Project`, branch `main`, entrypoint `app.py`.
+3. Trong **Advanced settings**, chọn Python 3.12 và thêm secrets:
+
+   ```toml
+   OPENAI_API_KEY = "sk-..."
+   OPENAI_CHAT_MODEL = "gpt-4o-mini"
+   ```
+
+4. Deploy. Trong app settings → **Sharing**, giữ quyền xem ở **Only specific people** nếu app/tài liệu không nên công khai; chỉ mời người cần truy cập.
+
+PDF hiện được lưu trong repo nên app cần quyền đọc repo private. Mỗi lần app khởi động sẽ tạo lại embeddings và FAISS index, phát sinh chi phí OpenAI; restart/redeploy có thể làm việc này lặp lại. Không đặt key vào GitHub hoặc commit file `.streamlit/secrets.toml`.
+
+Hướng dẫn chính thức: [deploy app](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy), [secrets](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management), [quyền chia sẻ](https://docs.streamlit.io/deploy/streamlit-community-cloud/share-your-app).
 
 ## Chạy bản dòng lệnh
 
