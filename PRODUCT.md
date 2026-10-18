@@ -20,15 +20,18 @@ Sản phẩm không đóng vai một chatbot kiến thức BJJ tổng quát. Nó
 
 ## Operating Context
 
-Người dùng mở giao diện web, đọc trạng thái corpus, đặt câu hỏi bằng tiếng Việt hoặc tiếng Anh, xem câu trả lời có citation và có thể xóa lịch sử hiển thị. Tài liệu nguồn nằm trong `papers/`; API key chỉ tồn tại ở server trong `.env`.
+Người dùng mở giao diện web, đọc trạng thái corpus, đặt câu hỏi bằng tiếng Việt hoặc tiếng Anh, xem câu trả lời có citation và có thể xóa lịch sử hiển thị. Tài liệu nguồn nằm trong `papers/`; API key chỉ tồn tại ở server trong biến môi trường.
 
 ## Capabilities and Constraints
 
-- Giữ nguyên RAG backend hiện tại: PyPDFLoader, chunk 1.200 ký tự với overlap 200, OpenAI embeddings, FAISS cosine retrieval và ChatOpenAI.
-- Corpus hiện có 2 PDF, 8 trang và 34 chunks; con số thực tế được lấy từ pipeline khi khởi động.
+- Production dùng React/TypeScript + Tailwind trên Netlify; Netlify Function xử lý PDF bằng PDF.js, chia chunk, OpenAI embeddings và cosine retrieval.
+- Retrieval lấy tối đa 5 chunks với cosine threshold 0,2; model trả lời mặc định là `gpt-4o-mini` với temperature 0.
+- Python CLI/Streamlit tiếp tục dùng LangChain, PyPDFLoader và FAISS để thực hành, độc lập với production function.
+- Corpus hiện có 2 PDF và 8 trang.
 - Citation dùng định dạng `[Source: filename, page N]`.
 - Lịch sử hội thoại hiện chỉ phục vụ hiển thị; mỗi câu hỏi được truy xuất độc lập.
-- Frontend dùng Streamlit và phải hoạt động tốt trên desktop lẫn mobile web.
+- Frontend phải hoạt động tốt trên desktop lẫn mobile web.
+- Function cache embeddings trong mỗi instance đang chạy; cold starts có thể tạo lại embeddings và phát sinh API usage.
 
 ## Evidence on Hand
 
