@@ -5,12 +5,12 @@ type Message = { role: "assistant" | "user"; content: string };
 const welcomeMessage: Message = {
   role: "assistant",
   content:
-    "Corpus đã sẵn sàng. Bạn có thể hỏi về sinh lý học, chấn thương hoặc tác động tâm lý – xã hội của Brazilian Jiu-Jitsu.",
+    "The research corpus is ready. Ask about the physiology, injuries, or psychosocial effects of Brazilian Jiu-Jitsu.",
 };
 
 const examples = [
   "What are the most common injuries?",
-  "BJJ đòi hỏi thể lực như thế nào?",
+  "What physical demands does BJJ involve?",
   "How does BJJ affect psychological resilience?",
 ];
 
@@ -53,10 +53,10 @@ function App() {
         body: JSON.stringify({ question: prompt }),
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Không thể gửi câu hỏi.");
+      if (!response.ok) throw new Error(result.error || "Unable to submit your question.");
       setMessages((current) => [...current, { role: "assistant", content: result.answer }]);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Không thể kết nối. Hãy thử lại.");
+      setError(cause instanceof Error ? cause.message : "Unable to connect. Please try again.");
     } finally {
       setLoading(false);
       requestAnimationFrame(() => conversationEnd.current?.scrollIntoView({ behavior: "smooth", block: "end" }));
@@ -119,7 +119,7 @@ function App() {
               </h1>
             </div>
             <p className="max-w-xl pb-1 text-sm leading-6 text-film-dim sm:text-base">
-              Đặt câu hỏi bằng tiếng Việt hoặc English. Câu trả lời chỉ dựa trên corpus nghiên cứu và trích dẫn theo trang.
+              Ask a question about Brazilian Jiu-Jitsu research. Answers are grounded in the source papers and include page citations.
             </p>
           </header>
 
@@ -162,7 +162,7 @@ function App() {
                 <div className="message-mark" aria-hidden="true"><span /></div>
                 <div>
                   <div className="message-role">Research assistant</div>
-                  <p className="message-copy text-film-dim">Đang đối chiếu các trang liên quan…</p>
+                  <p className="message-copy text-film-dim">Checking the relevant pages…</p>
                   <div className="scan-track" aria-hidden="true"><span /></div>
                 </div>
               </article>
@@ -184,14 +184,14 @@ function App() {
                   void ask(question);
                 }
               }}
-              placeholder="Nhập câu hỏi để quét corpus nghiên cứu…"
+              placeholder="Ask a question about the research corpus…"
               rows={2}
               value={question}
             />
             <button className="send-button" disabled={loading || !question.trim()} type="submit" aria-label="Send question">
               <SendMark />
             </button>
-            <div className="query-hint">Enter để gửi · Shift + Enter để xuống dòng</div>
+            <div className="query-hint">Enter to send · Shift + Enter for a new line</div>
           </form>
         </main>
       </div>

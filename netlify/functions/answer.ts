@@ -86,9 +86,9 @@ const systemPrompt = `You are a rigorous research analyst specializing in Brazil
 Rules:
 1. Answer using only the supplied context.
 2. Do not invent facts or use outside knowledge.
-3. If the context is insufficient, say: "Tôi không biết dựa trên tài liệu được cung cấp."
+3. If the context is insufficient, say: "I don't know based on the provided sources."
 4. Put an exact [Source: filename, page N] citation after every factual sentence or bullet.
-5. Answer in English when the question is English and in Vietnamese when the question is Vietnamese.`;
+5. Always answer in English, regardless of the language of the question.`;
 
 export default async (request: Request) => {
   if (request.method !== "POST") {
@@ -127,7 +127,7 @@ export default async (request: Request) => {
     return Response.json({ answer: result.choices[0]?.message?.content ?? "" });
   } catch (error) {
     console.error("RAG request failed", error);
-    return Response.json({ error: "Không thể trả lời lúc này. Hãy thử lại sau." }, { status: 502 });
+    return Response.json({ error: "Unable to answer right now. Please try again." }, { status: 502 });
   }
 };
 
