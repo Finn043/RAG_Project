@@ -125,7 +125,12 @@ function App() {
 
           <div className="mb-2 flex items-center justify-between gap-3 font-display text-xs uppercase tracking-[0.12em] text-film-dim">
             <span>Conversation plate</span>
-            <span className="text-mint">Source-locked output</span>
+            <div className="flex items-center gap-3">
+              <span className="text-mint">Source-locked output</span>
+              <button className="clear-button mobile-clear-button md:hidden" onClick={clearConversation} type="button">
+                Clear
+              </button>
+            </div>
           </div>
 
           <section aria-label="Conversation" className="conversation min-h-[250px] flex-1 overflow-y-auto pb-5" aria-live="polite">
